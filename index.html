@@ -38,24 +38,28 @@
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <img class="hero-image" src="images/hero.webp" alt="석재 외장 건축물 콘셉트 이미지">
-      <div class="hero-angle" aria-hidden="true"></div>
-      <div class="hero-texture" aria-hidden="true"></div>
-      <div class="container hero-content">
-        <p class="eyebrow hero-label"><span class="rule"></span> SEOKSAN RENOVATION</p>
-        <h1 id="hero-title">건축의 가치를<br>높이는 기술</h1>
-        <p class="hero-subtitle">외벽에서 실내공간까지,<br>소재기술로 완성합니다.</p>
-        <p class="hero-description">건축 내·외장재의 기술과 품질을 생각하는 기업</p>
-        <div class="hero-actions">
-          <a class="button button-white" href="#products">제품 둘러보기 <span aria-hidden="true">↗</span></a>
-          <a class="button button-ghost" href="#quote">견적 문의하기 <span aria-hidden="true">→</span></a>
-        </div>
+    <section class="hero hero-brochure" id="top" aria-labelledby="hero-title">
+      <!-- 제목은 검색/접근성을 위해 보존하되, 이미지 속 글자와 중복 표시하지 않습니다. -->
+      <h1 class="visually-hidden" id="hero-title">건축의 가치를 높이는 기술 — 석산리노베이션</h1>
+      <div class="hero-artwork">
+        <img
+          src="images/hero-seoksan-cover.webp"
+          alt="건축의 가치를 높이는 기술. SEOKSAN RENOVATION. 석재 외장 건축물을 담은 석산리노베이션 기업 브로슈어 표지."
+          width="1491" height="1055"
+          fetchpriority="high"
+          decoding="async">
       </div>
-      <div class="hero-bottom">
-        <div class="container hero-bottom-inner">
-          <span>EXTERIOR</span><span>INTERIOR WALL</span><span>FLOORING</span><span>CUBICLE</span>
-          <small>이미지: 건축 적용 콘셉트</small>
+      <div class="hero-bottom-cta">
+        <div class="container hero-bottom-cta-inner">
+          <div class="hero-cta-copy">
+            <strong>건축 내·외장재 종합 솔루션</strong>
+            <span>석재단열패널 · 실내벽체단열패널 · SPC 마루 · 화장실 큐비클</span>
+            <small>※ 메인 이미지는 브로슈어용 콘셉트 이미지입니다.</small>
+          </div>
+          <div class="hero-actions">
+            <a class="button button-white" href="#products">제품 둘러보기 <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost" href="#quote">견적 문의하기 <span aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
     </section>

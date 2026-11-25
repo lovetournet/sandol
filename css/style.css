@@ -49,25 +49,25 @@ h2 em{font-style:normal;color:#42617a}
 .two-col-heading h2{margin-bottom:0}
 .two-col-heading>p{line-height:2;max-width:400px;margin:0 0 4px;color:#677581;font-size:14px}
 
-/* HERO */
-.hero{position:relative;min-height:685px;background:var(--navy);isolation:isolate;overflow:hidden;color:#fff;display:flex;align-items:center}
-.hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 48%;z-index:-3}
-.hero-angle{position:absolute;inset:0;background:linear-gradient(115deg,#0a243b 20%,#103450 90%);clip-path:polygon(0 0,69% 0,49% 100%,0 100%);z-index:-2}
-.hero-texture{position:absolute;inset:0;background:linear-gradient(105deg,rgba(5,24,40,.22) 0%,rgba(5,24,40,.12) 40%,transparent 70%);z-index:-1}
-.hero-content{position:relative;padding-top:45px;padding-bottom:120px}
-.hero-label{color:#aabed0;margin-bottom:38px;font-size:11px;letter-spacing:.23em}
-.hero h1{font-size:clamp(46px,5.4vw,79px);font-weight:500;letter-spacing:-.065em;line-height:1.3;margin-bottom:26px;text-shadow:0 1px 6px rgba(0,0,0,.1)}
-.hero-subtitle{font-size:clamp(16px,1.7vw,22px);line-height:1.8;letter-spacing:-.025em;margin-bottom:9px}
-.hero-description{font-size:13px;color:#b6c8d6;letter-spacing:.01em}
-.hero-actions{display:flex;gap:12px;margin-top:38px;flex-wrap:wrap}
+/* HERO — 기업 브로슈어 표지를 원본 비율 그대로 사용합니다. */
+.visually-hidden{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0
+}
+.hero-brochure{position:relative;display:block;min-height:0;overflow:hidden;background:var(--navy);color:#fff}
+.hero-artwork{width:min(100%,1491px);margin-inline:auto}
+.hero-artwork img{display:block;width:100%;height:auto;object-fit:contain}
+.hero-bottom-cta{background:#0b2238;border-top:1px solid rgba(255,255,255,.16)}
+.hero-bottom-cta-inner{min-height:110px;display:flex;align-items:center;justify-content:space-between;gap:30px;padding-block:22px}
+.hero-cta-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.hero-cta-copy strong{color:#fff;font-family:var(--serif);font-size:19px;font-weight:500}
+.hero-cta-copy span{color:#cad6df;font-size:12px;line-height:1.8}
+.hero-cta-copy small{color:#8ba5b8;font-size:10px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;flex:none}
 .button{min-height:47px;padding:12px 22px;display:inline-flex;align-items:center;justify-content:center;gap:30px;font-size:13px;font-weight:700;border:1px solid transparent;transition:transform .2s,background .2s,color .2s;white-space:nowrap}
 .button:hover{transform:translateY(-2px)}
 .button-white{background:white;color:var(--navy)}.button-white:hover{background:#e6eef2}
 .button-ghost{border-color:#a9bbc8;background:rgba(4,28,48,.1);color:white}.button-ghost:hover{background:rgba(255,255,255,.13)}
-.hero-bottom{position:absolute;bottom:0;left:0;right:0;background:rgba(3,20,34,.84);border-top:1px solid #ffffff28}
-.hero-bottom-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:62px}
-.hero-bottom span{color:#e8eef3;font-size:10px;letter-spacing:.17em;font-weight:600}
-.hero-bottom small{color:#b3bdc5;font-size:10px}
 
 /* INTRO */
 .intro-section{background:#fff}
@@ -189,7 +189,6 @@ h2 em{font-style:normal;color:#42617a}
   .nav{gap:15px}
   .brand strong{font-size:17px}
   .technology-content{padding:60px 36px}
-  .hero-angle{clip-path:polygon(0 0,76% 0,60% 100%,0 100%)}
   .product-body{padding:19px 17px 17px}
   .product-body h3{font-size:20px}
 }
@@ -203,10 +202,6 @@ h2 em{font-style:normal;color:#42617a}
   .nav.open{display:flex}
   .nav a{padding:12px 8px;border-bottom:1px solid #eef0f2}
   .nav a.nav-cta{margin:15px 0 0;text-align:center;border:0}
-  .hero{min-height:600px}
-  .hero-angle{clip-path:none;background:linear-gradient(90deg,rgba(6,29,48,.95) 0%,rgba(7,28,46,.75) 60%,rgba(7,28,46,.24) 100%)}
-  .hero-content{padding-block:75px 115px}
-  .hero h1{font-size:55px}
   .section-space{padding-block:80px}
   .intro-grid{gap:40px}
   .intro-copy{padding-top:15px}
@@ -220,6 +215,7 @@ h2 em{font-style:normal;color:#42617a}
   .quote-layout{grid-template-columns:1fr;gap:36px}
   .quote-points{flex-direction:row;gap:25px;margin-top:20px}
   .quote-intro .quote-caution{margin-top:18px}
+  .hero-bottom-cta-inner{flex-direction:column;align-items:flex-start;gap:17px}
 }
 @media(max-width:620px){
   .container{width:calc(100% - 34px)}
@@ -229,16 +225,11 @@ h2 em{font-style:normal;color:#42617a}
   .brand svg{width:32px;height:32px}
   .brand strong{font-size:14px}
   .brand small{font-size:9px}
-  .hero{min-height:600px}
-  .hero-image{object-position:60% 50%}
-  .hero-angle{background:linear-gradient(90deg,rgba(4,27,45,.94),rgba(5,26,44,.72) 75%,rgba(4,27,45,.28))}
-  .hero-content{padding:64px 0 134px}
-  .hero h1{font-size:clamp(41px,11vw,53px)}
-  .hero-label{font-size:9px;margin-bottom:25px}
-  .hero-subtitle{font-size:17px}
-  .hero-description{font-size:11px}
-  .hero-bottom-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 15px;padding-block:10px}
-  .hero-bottom span{font-size:9px}.hero-bottom small{grid-column:1/-1}
+  .hero-bottom-cta-inner{padding-block:21px;gap:16px}
+  .hero-cta-copy strong{font-size:17px}
+  .hero-cta-copy span{font-size:11px}
+  .hero-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px}
+  .hero-actions .button{padding:11px 9px;font-size:11px;gap:7px;min-height:43px}
   .section-space{padding-block:67px}
   .section-kicker{margin-bottom:15px}
   h2{font-size:clamp(30px,8vw,36px)}
