@@ -179,3 +179,99 @@ byId("quote-form").addEventListener("submit", async (event) => {
     : "자동 복사가 지원되지 않습니다. 브라우저 보안 설정을 확인해 주세요.";
 });
 renderQuote();
+
+
+/* ===== V2.3: 브로슈어 자동 넘김 (3초 / 클릭 시 일시정지·재생) ===== */
+(() => {
+  const image = document.getElementById("brochure-image");
+  if (!image) return;
+  const imageToggle = document.getElementById("brochure-image-toggle");
+  const playToggle = document.getElementById("brochure-play-toggle");
+  const playLabel = document.getElementById("brochure-play-label");
+  const playIcon = document.getElementById("brochure-play-icon");
+  const counter = document.getElementById("brochure-counter");
+  const statusLine = document.getElementById("brochure-status");
+  const progress = document.getElementById("brochure-progress-bar");
+  const dots = [...document.querySelectorAll("[data-brochure-page]")];
+  const slides = [
+    {src:"images/brochure-01.webp", alt:"석산리노베이션 브로슈어 1페이지: 회사 소개 표지"},
+    {src:"images/brochure-02.webp", alt:"석산리노베이션 브로슈어 2페이지: 대표 인사말"},
+    {src:"images/brochure-03.webp", alt:"석산리노베이션 브로슈어 3페이지: 기업 개요"},
+    {src:"images/brochure-04.webp", alt:"석산리노베이션 브로슈어 4페이지: 기업 연혁"}
+  ];
+  const delay = 3000;
+  let current = 0;
+  // 움직임 최소화 설정을 사용하는 경우, 자동 넘김을 시작하지 않습니다.
+  let paused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let timer = null;
+
+  slides.forEach(({src}) => { const preload = new Image(); preload.src = src; });
+
+  function showSlide(index) {
+    current = (index + slides.length) % slides.length;
+    image.src = slides[current].src;
+    image.alt = slides[current].alt;
+    counter.innerHTML = `${String(current + 1).padStart(2, "0")} <span>/ 04</span>`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === current);
+      if (i === current) dot.setAttribute("aria-current","true");
+      else dot.removeAttribute("aria-current");
+    });
+  }
+  function refreshUI() {
+    const playing = !paused;
+    playLabel.textContent = playing ? "일시정지" : "다시 재생";
+    playIcon.textContent = playing ? "Ⅱ" : "▶";
+    statusLine.textContent = playing
+      ? "자동 재생 중 · 이미지를 클릭하면 일시정지"
+      : "일시정지됨 · 이미지를 다시 클릭하면 재생";
+    for (const button of [imageToggle, playToggle]) {
+      button.setAttribute("aria-label", playing ? "브로슈어 자동 재생 일시정지" : "브로슈어 자동 재생 시작");
+      button.setAttribute("aria-pressed", String(paused));
+    }
+    imageToggle.title = playing ? "이미지를 클릭하면 일시정지" : "이미지를 클릭하면 다시 재생";
+  }
+  function resetProgress() {
+    progress.classList.remove("is-running");
+    progress.style.width = "0";
+    void progress.offsetWidth; // 새 페이지마다 3초 진행 막대 초기화
+    if (!paused && !document.hidden) {
+      progress.style.width = "";
+      progress.classList.add("is-running");
+    }
+  }
+  function restartTimer() {
+    clearInterval(timer);
+    timer = null;
+    resetProgress();
+    if (!paused && !document.hidden) {
+      timer = window.setInterval(() => {
+        showSlide(current + 1);
+        resetProgress();
+      }, delay);
+    }
+  }
+  function togglePlayback() {
+    paused = !paused;
+    refreshUI();
+    restartTimer();
+  }
+  imageToggle.addEventListener("click", togglePlayback);
+  playToggle.addEventListener("click", togglePlayback);
+  document.getElementById("brochure-prev").addEventListener("click", () => {
+    showSlide(current - 1);
+    restartTimer();
+  });
+  document.getElementById("brochure-next").addEventListener("click", () => {
+    showSlide(current + 1);
+    restartTimer();
+  });
+  dots.forEach((dot) => dot.addEventListener("click", () => {
+    showSlide(Number(dot.dataset.brochurePage));
+    restartTimer();
+  }));
+  document.addEventListener("visibilitychange", restartTimer);
+  showSlide(0);
+  refreshUI();
+  restartTimer();
+})();
