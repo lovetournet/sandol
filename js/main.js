@@ -27,6 +27,12 @@ const loss = byId("loss");
 const stalls = byId("stalls");
 const spec = byId("spec");
 const memo = byId("memo");
+const siteRegion = byId("site-region");
+const siteDistrict = byId("site-district");
+const receiverName = byId("receiver-name");
+const receiverPhone = byId("receiver-phone");
+const companyName = byId("company-name");
+const locationGuide = byId("location-guide");
 const result = byId("result");
 const resultTitle = byId("result-title");
 const resultHint = byId("result-hint");
@@ -67,6 +73,10 @@ function renderQuote() {
   for (const name of ["unit", "area", "loss"]) fieldWraps[name].hidden = q.isCubicle;
   fieldWraps.stalls.hidden = !q.isCubicle;
   specLabel.textContent = specLabels[product.value] || "제품 조건";
+  const insulationProduct = ["석재단열패널", "실내벽체단열패널"].includes(product.value);
+  locationGuide.textContent = insulationProduct
+    ? "단열패널은 현장 지역과 건축물 용도·설계 조건에 따라 필요한 단열 사양이 달라질 수 있습니다. 지역 정보만으로 단열재와 견적이 자동 확정되지는 않으며, 담당자가 검토 후 안내합니다."
+    : "설치 지역은 납품 운송 조건 및 현장 상담을 위한 정보입니다. 최종 견적은 담당자 확인 후 안내합니다.";
   resultTitle.textContent = q.isCubicle ? "예상 필요 칸 수" : "여유분 포함 예상 필요 면적";
   result.textContent = q.isCubicle ? `${q.stallCount.toLocaleString("ko-KR")}칸` : `${format(q.total)} ㎡`;
   resultHint.textContent = q.isCubicle
@@ -97,7 +107,15 @@ document.querySelectorAll("[data-product-link]").forEach((link) => {
 
 function makeRequestText() {
   const q = getQuote();
-  const rows = ["[석산리노베이션 견적 요청 초안]", "", `제품: ${product.value}`];
+  const rows = [
+    "[석산리노베이션 견적 요청 초안]",
+    "",
+    `제품: ${product.value}`,
+    `설치 현장 지역: ${siteRegion.value} ${siteDistrict.value.trim()}`,
+    `견적 받는 분: ${receiverName.value.trim()}`,
+    `견적 받는 분 전화번호: ${receiverPhone.value.trim()}`,
+    `업체명: ${companyName.value.trim() || "미기재"}`
+  ];
   if (q.isCubicle) {
     rows.push(`예상 칸 수: ${q.stallCount.toLocaleString("ko-KR")}칸`);
   } else {
@@ -134,6 +152,25 @@ byId("quote-form").addEventListener("submit", async (event) => {
   if ((!q.isCubicle && q.sqm <= 0) || (q.isCubicle && q.stallCount < 1)) {
     status.textContent = q.isCubicle ? "칸 수를 1 이상 입력해 주세요." : "시공 면적을 0보다 크게 입력해 주세요.";
     (q.isCubicle ? stalls : area).focus();
+    return;
+  }
+  const requiredFields = [
+    [siteRegion, "설치 지역(시·도)을 선택해 주세요."],
+    [siteDistrict, "설치 지역(시·군·구)을 입력해 주세요."],
+    [receiverName, "견적 받는 분의 성함을 입력해 주세요."],
+    [receiverPhone, "견적 받는 분의 전화번호를 입력해 주세요."]
+  ];
+  for (const [element, message] of requiredFields) {
+    if (!element.value.trim()) {
+      status.textContent = message;
+      element.focus();
+      return;
+    }
+  }
+  const digits = receiverPhone.value.replace(/\D/g, "");
+  if (!/^0\d{8,10}$/.test(digits)) {
+    status.textContent = "전화번호를 확인해 주세요. 예: 010-1234-5678 또는 02-123-4567";
+    receiverPhone.focus();
     return;
   }
   const copied = await copyQuote(makeRequestText());

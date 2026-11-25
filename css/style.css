@@ -150,6 +150,11 @@ h2 em{font-style:normal;color:#42617a}
 .field label{font-weight:700}
 .field-full{grid-column:1/-1}
 .field input,.field select,.field textarea{display:block;width:100%;min-height:46px;background:#f8fafb;color:var(--navy);border:1px solid #dce3e8;border-radius:0;padding:12px 13px;font-size:13px;font-weight:400;outline-offset:2px}
+.form-subhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid #dce5ea;padding:8px 0 10px;margin-top:7px}
+.form-subhead strong{font-size:14px;color:#17384f}
+.form-subhead span{color:#768b99;font-size:11px;line-height:1.6;text-align:right}
+.field .required-mark{display:inline-block;color:#a14d35;font-size:10px;font-weight:600;vertical-align:middle;margin-left:3px}
+.location-guide{margin:-4px 0 0;padding:12px 15px;background:#eef4f7;border-left:2px solid #68869a;color:#426075;font-size:11px;line-height:1.8}
 .field input::placeholder,.field textarea::placeholder{color:#8f9ca6}
 .field textarea{resize:vertical;line-height:1.7}
 .field select{appearance:auto}
@@ -273,4 +278,9 @@ h2 em{font-style:normal;color:#42617a}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .button,.product-card,.product-photo img{transition:none}
+}
+
+@media(max-width:620px){
+  .form-subhead{flex-direction:column;align-items:start;gap:4px}
+  .form-subhead span{text-align:left}
 }
